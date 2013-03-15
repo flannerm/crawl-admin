@@ -322,7 +322,7 @@ namespace Crawl
                     xmlRow.Add("CHIP_1", "Images\\still_ele\\CRAWL_new_16x9_safe_ele\\ESPN_crawl_logo_ele.tga");
                     break;
                 case "Coors Light":
-                    xmlRow.Add("CRAWL_BACKGROUND", "Images\\still_ele\\CRAWL_new_16x9_safe_ele\\RED_CRAWL_standard_16x9_safe_ele.tga");
+                    xmlRow.Add("CRAWL_BACKGROUND", "Images\\still_ele\\CRAWL_new_16x9_safe_ele\\RED_CRAWL_keyable_16x9_safe_ele.tga");
                     xmlRow.Add("CHIP_1", "Images\\still_ele\\CRAWL_new_16x9_safe_ele\\COORS_LIGHT_crawl_logo_ele.tga");
                     break;
                 case "Bud Light":

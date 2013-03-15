@@ -554,6 +554,9 @@ namespace Crawl
                         case "JETS":
                             sCrawl += "NY JETS        ";
                             break;
+                        case "49ERS":
+                            sCrawl += "49ers        ";
+                            break;
                         default:
                             sCrawl += row["city_st_name"].ToString().ToUpper() + "        ";
                             break;
@@ -643,6 +646,9 @@ namespace Crawl
                             break;
                         case "JETS":
                             sCrawl += "NY JETS - ";
+                            break;
+                        case "49ERS":
+                            sCrawl += "49ers - ";
                             break;
                         default:
                             sCrawl += row["city_st_name"].ToString().ToUpper() + " - ";
