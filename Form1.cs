@@ -141,6 +141,7 @@ namespace Crawl
             cboSponsors.Items.Add("<None>");
             cboSponsors.Items.Add("Coors Light");
             cboSponsors.Items.Add("Bud Light");            
+            cboSponsors.Items.Add("ESPN2");
         }
         
         private void chkShowRd1_Click(object sender, EventArgs e)
@@ -318,16 +319,20 @@ namespace Crawl
             switch (cboSponsors.Text)
             {
                 case "<None>":
-                    xmlRow.Add("CRAWL_BACKGROUND", "Images\\still_ele\\CRAWL_new_16x9_safe_ele\\RED_CRAWL_keyable_16x9_safe_ele.tga");
-                    xmlRow.Add("CHIP_1", "Images\\still_ele\\CRAWL_new_16x9_safe_ele\\ESPN_crawl_logo_ele.tga");
+                    xmlRow.Add("CRAWL_BACKGROUND", ConfigurationManager.AppSettings["DefaultBackground"].ToString());
+                    xmlRow.Add("CHIP_1", ConfigurationManager.AppSettings["DefaultChip"].ToString());
                     break;
                 case "Coors Light":
-                    xmlRow.Add("CRAWL_BACKGROUND", "Images\\still_ele\\CRAWL_new_16x9_safe_ele\\RED_CRAWL_keyable_16x9_safe_ele.tga");
-                    xmlRow.Add("CHIP_1", "Images\\still_ele\\CRAWL_new_16x9_safe_ele\\COORS_LIGHT_crawl_logo_ele.tga");
+                    xmlRow.Add("CRAWL_BACKGROUND", ConfigurationManager.AppSettings["CoorsLightBackground"].ToString());
+                    xmlRow.Add("CHIP_1", ConfigurationManager.AppSettings["CoorsLightChip"].ToString());
                     break;
                 case "Bud Light":
-                    xmlRow.Add("CRAWL_BACKGROUND", "Images\\still_ele\\CRAWL_new_16x9_safe_ele\\BLUE_budlight_CRAWL_keyable_16x9_safe_ele.tga");
-                    xmlRow.Add("CHIP_1", "Images\\still_ele\\CRAWL_new_16x9_safe_ele\\BUD_LIGHT_crawl_logo_ele.tga");
+                    xmlRow.Add("CRAWL_BACKGROUND", ConfigurationManager.AppSettings["BudLightBackground"].ToString());
+                    xmlRow.Add("CHIP_1", ConfigurationManager.AppSettings["BudLightChip"].ToString());
+                    break;
+                case "ESPN2":
+                    xmlRow.Add("CRAWL_BACKGROUND", ConfigurationManager.AppSettings["Espn2Background"].ToString());
+                    xmlRow.Add("CHIP_1", ConfigurationManager.AppSettings["Espn2Chip"].ToString());
                     break;
             }
 
@@ -347,7 +352,16 @@ namespace Crawl
         {
             _setRoundCrawlTimer.Stop();
 
-            _functions.SetRoundCrawlState();
+            if (_functions.SetRoundCrawlState() == true)
+            {
+                chkShowRd1.Checked = Convert.ToBoolean(_functions.gtRoundInfo[1].iShowRound);
+                chkShowRd2.Checked = Convert.ToBoolean(_functions.gtRoundInfo[2].iShowRound);
+                chkShowRd3.Checked = Convert.ToBoolean(_functions.gtRoundInfo[3].iShowRound);
+                chkShowRd4.Checked = Convert.ToBoolean(_functions.gtRoundInfo[4].iShowRound);
+                chkShowRd5.Checked = Convert.ToBoolean(_functions.gtRoundInfo[5].iShowRound);
+                chkShowRd6.Checked = Convert.ToBoolean(_functions.gtRoundInfo[6].iShowRound);
+                chkShowRd7.Checked = Convert.ToBoolean(_functions.gtRoundInfo[7].iShowRound);
+            }
 
             _setRoundCrawlTimer.Start();
         }

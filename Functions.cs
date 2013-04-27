@@ -35,6 +35,8 @@ namespace Crawl
         public TeamDBSaver[] gtTeams = new TeamDBSaver[32];
 
         public bool noTeamCrawl = true;
+
+        public int giCurrentRound = 0;
         
         public struct NextPick
         {
@@ -103,7 +105,7 @@ namespace Crawl
 			    tPick.iRound = giMaxRounds;
 		    }
             
-            SetRoundCrawlState(tPick.iRound);
+            //SetRoundCrawlState(tPick.iRound);
         }
 
         public string AcquireString(int iPickStart, int iFlag)
@@ -332,7 +334,7 @@ namespace Crawl
             int iNewPS;
             int iGoodNum = 0;
             int iRound = 0;
-            int iLoop;
+            //int iLoop;
             int iSafety = 10;
 
             //Start out with the next number and see if that's OK
@@ -405,6 +407,8 @@ namespace Crawl
                 //We've tried 10 times and there should only be 7 rounds.  We're in trouble.
                 //MsgBox("Damn!  Can't FindNextPickStart!")
             }
+
+            Debug.Print("ipickstart " + iNewPS);
 
             return iNewPS;
         }
@@ -554,9 +558,9 @@ namespace Crawl
                         case "JETS":
                             sCrawl += "NY JETS        ";
                             break;
-                        case "49ERS":
-                            sCrawl += "49ers        ";
-                            break;
+                        //case "49ERS":
+                        //    sCrawl += "49ers        ";
+                        //    break;
                         default:
                             sCrawl += row["city_st_name"].ToString().ToUpper() + "        ";
                             break;
@@ -647,9 +651,9 @@ namespace Crawl
                         case "JETS":
                             sCrawl += "NY JETS - ";
                             break;
-                        case "49ERS":
-                            sCrawl += "49ers - ";
-                            break;
+                        //case "49ERS":
+                        //    sCrawl += "49ers - ";
+                        //    break;
                         default:
                             sCrawl += row["city_st_name"].ToString().ToUpper() + " - ";
                             break;
@@ -691,9 +695,9 @@ namespace Crawl
         {
             string sCrawl = "";
             string sQuery;
-            int iNewTeam;
-            int iRound = 1;
-            int iLastRound = -1;
+            //int iNewTeam;
+            //int iRound = 1;
+            //int iLastRound = -1;
             int iPlayers = giPlayersPerString;
             int iLoop = 0;
 
@@ -879,59 +883,74 @@ namespace Crawl
 	
         public void SetRoundCrawlState(int iRound)
         {
-            int iLoop;
+ 
+            gtRoundInfo[iRound].iShowRound = 1;
+            gtRoundInfo[iRound].iShowTeams = 1;
 
-            switch (iRound)
-            {
-                //case 1:
-                //    gtRoundInfo[1].iShowRound = 1;
-                //    gtRoundInfo[1].iShowTeams = 1;
+            //int iLoop;
+            
+            //switch (iRound)
+            //{
+            //    case 1:
+            //        gtRoundInfo[1].iShowRound = 1;
+            //        gtRoundInfo[1].iShowTeams = 1;
 
-                //    for (iLoop = 2; iLoop < giMaxRounds; iLoop++)
-                //    {
-                //        gtRoundInfo[iLoop].iShowRound = 0;
-                //        gtRoundInfo[iLoop].iShowTeams = 0;
-                //    }
+            //        for (iLoop = 2; iLoop < giMaxRounds; iLoop++)
+            //        {
+            //            gtRoundInfo[iLoop].iShowRound = 0;
+            //            gtRoundInfo[iLoop].iShowTeams = 0;
+            //        }
 
-                //    break;
-                //case 2:
-                //    //Only show for 1 and 2
-                //    gtRoundInfo[1].iShowRound = 1;
-                //    gtRoundInfo[1].iShowTeams = 1;
-                //    gtRoundInfo[2].iShowRound = 1;
-                //    gtRoundInfo[2].iShowTeams = 0;
+            //        break;
+            //    case 2:
+            //        //Only show for 1 and 2
+            //        gtRoundInfo[1].iShowRound = 1;
+            //        gtRoundInfo[1].iShowTeams = 1;
+            //        gtRoundInfo[2].iShowRound = 1;
+            //        gtRoundInfo[2].iShowTeams = 0;
 
-                //    for (iLoop = 3; iLoop < giMaxRounds; iLoop++)
-                //    {
-                //        gtRoundInfo[iLoop].iShowRound = 0;
-                //        gtRoundInfo[iLoop].iShowTeams = 0;
-                //    }
+            //        for (iLoop = 3; iLoop < giMaxRounds; iLoop++)
+            //        {
+            //            gtRoundInfo[iLoop].iShowRound = 0;
+            //            gtRoundInfo[iLoop].iShowTeams = 0;
+            //        }
 
-                //    break;
-                default: 
-                    //Show all rounds
-                    for (iLoop = 1; iLoop < giMaxRounds; iLoop++)
-                    {
-                        gtRoundInfo[iLoop].iShowRound = 1;
-                        gtRoundInfo[iLoop].iShowTeams = 1;
-                    }
+            //        break;
+            //    default: 
+            //        //Show all rounds
+            //        //for (iLoop = 1; iLoop < giMaxRounds; iLoop++)
+            //        //{
+            //        //    gtRoundInfo[iLoop].iShowRound = 1;
+            //        //    gtRoundInfo[iLoop].iShowTeams = 1;
+            //        //}
 
-                    //gtRoundInfo[iRound].iShowRound = 1;
-                    //gtRoundInfo[iRound].iShowTeams = 1;
+            //        gtRoundInfo[iRound].iShowRound = 1;
+            //        gtRoundInfo[iRound].iShowTeams = 1;
 
-                    break;
+            //        break;
 
-            }
+            //}
         }
 
-        public void SetRoundCrawlState()
+        public bool SetRoundCrawlState()
         {
+            bool retVal = false;
+
             NextPick tNextPick = FindNextTeamPick();
                 
-            if (tNextPick.iPick == 1)
+            //if (tNextPick.iPick == 1)
+            //{
+            //    SetRoundCrawlState(tNextPick.iRound);
+            //}
+            if (tNextPick.iRound != giCurrentRound)
             {
-                SetRoundCrawlState(tNextPick.iRound);
+                giCurrentRound = tNextPick.iRound;
+                SetRoundCrawlState(giCurrentRound);
+
+                retVal = true;
             }
+
+            return retVal;
         }
     }
 }
